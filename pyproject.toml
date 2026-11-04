@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "x32print"
+version = "0.1.0"
+description = "Generate printable documentation from Behringer X32 scene files."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "x32print contributors" }]
+dependencies = ["Jinja2>=3.1,<4"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+x32print = "x32print.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/x32print"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
