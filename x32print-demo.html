@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>x32print-demo — X32 channel list</title>
+<style>
+@page { size: letter landscape; margin: 0.4in; }
+
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #111;
+  margin: 0;
+  background: #e8e8e8;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.toolbar {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; gap: 1em; align-items: center;
+  padding: 8px 16px; background: #222; color: #ccc; font-size: 13px;
+}
+.toolbar button { font-size: 14px; padding: 4px 14px; }
+
+.page {
+  background: #fff;
+  width: 10.2in;
+  margin: 16px auto;
+  padding: 0.3in 0.4in;
+  box-shadow: 0 1px 4px rgba(0,0,0,.2);
+}
+
+.page-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: 3px solid #111; margin-bottom: 8px; padding-bottom: 2px;
+}
+h1 { font-size: 22px; margin: 0; }
+h2 { font-size: 15px; margin: 14px 0 4px; }
+.meta { font-size: 11px; color: #555; }
+
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: #555;
+     border-bottom: 1.5px solid #111; padding: 2px 6px; }
+td { padding: 1px 6px; border-bottom: 1px solid #ddd; vertical-align: middle; }
+.r { text-align: right; font-variant-numeric: tabular-nums; }
+.c { text-align: center; }
+.num { width: 3.2em; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.name-chip {
+  display: inline-block; min-width: 11em; padding: 0 8px; border-radius: 3px;
+  border: 1px solid #999; font-weight: 600;
+}
+
+/* Channel list */
+table.list td { font-size: 12.5px; height: 18px; }
+table.list .src { font-variant-numeric: tabular-nums; white-space: nowrap; }
+table.list tr.unused td { color: #aaa; }
+table.list tr.unused .name-chip { background: transparent !important; color: #bbb !important; border-color: #ddd; font-weight: 400; }
+table.list tr.link-top td { border-bottom-color: transparent; }
+table.list tr.link-top td:last-child, table.list tr.link-bottom td:last-child { background: #eee; font-weight: 700; }
+.src-aes50 { font-weight: 600; }
+
+.phantom {
+  display: inline-block; background: #c0392b; color: #fff; font-weight: 700;
+  font-size: 10px; padding: 0 5px; border-radius: 3px;
+}
+.phantom.big { font-size: 15px; padding: 1px 8px; }
+
+/* Stage box sheets: big, readable from a distance */
+table.box th { font-size: 12px; }
+table.box td { font-size: 20px; height: 0.42in; border-bottom: 1.5px solid #bbb; }
+table.box .sock { width: 1.6in; font-size: 30px; font-weight: 800; text-align: center; font-variant-numeric: tabular-nums; }
+table.box th.sock { font-size: 12px; }
+table.box .name-chip { min-width: 4.5in; font-size: 22px; padding: 2px 12px; }
+table.box tr.empty .sock { color: #bbb; }
+table.box .box-ch { display: flex; align-items: center; gap: 12px; }
+table.box .box-ch + .box-ch { margin-top: 3px; }
+.box-chnum { display: inline-block; width: 3.6em; font-size: 15px; color: #444; font-weight: 600; }
+.blank-line { display: inline-block; width: 4.5in; border-bottom: 1px dotted #bbb; margin-left: calc(3.6em * 15 / 20 + 12px); }
+
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4in; }
+.warnings { font-size: 12px; margin: 0; padding-left: 1.2em; }
+.footnote { font-size: 10px; color: #666; margin-top: 10px; }
+
+@media print {
+  body { background: #fff; }
+  .no-print { display: none; }
+  .page { margin: 0; padding: 0; width: auto; box-shadow: none; page-break-after: always; break-after: page; }
+  .page:last-child { page-break-after: auto; break-after: auto; }
+}
+
+</style>
+</head>
+<body>
+<div class="toolbar no-print">
+  <button onclick="window.print()">Print</button>
+  <span>Tip: set landscape orientation and enable “Background graphics” to print scribble colours.</span>
+</div>
+
+
+<section class="page">
+  <header class="page-head">
+    <h1>x32print-demo</h1>
+    <div class="meta">Input channel list · generated 2026-11-04 13:35</div>
+  </header>
+  <table class="list">
+    <thead>
+      <tr>
+        <th class="num">Ch</th><th>Name</th><th>Source</th>
+        <th class="r">Gain</th><th class="c">48V</th><th class="r">Trim</th><th class="r">HPF</th><th class="c">Link</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="">
+        <td class="num">01</td>
+        <td><span class="name-chip" style="background: #f1c40f; color: #000">Lead Vocal</span></td>
+        <td class="src src-aes50">AES50 A 01</td>
+        <td class="r">+30.0 dB</td>
+        <td class="c"><span class="phantom">48V</span></td>
+        <td class="r"></td>
+        <td class="r"></td>
+        <td class="c"></td>
+      </tr>
+      <tr class="">
+        <td class="num">02</td>
+        <td><span class="name-chip" style="background: #2ecc71; color: #fff">Guitar</span></td>
+        <td class="src src-aes50">AES50 A 02</td>
+        <td class="r">+20.0 dB</td>
+        <td class="c"></td>
+        <td class="r"></td>
+        <td class="r"></td>
+        <td class="c"></td>
+      </tr>
+      <tr class=" link-top">
+        <td class="num">03</td>
+        <td><span class="name-chip" style="background: #e74c3c; color: #fff">Keys L</span></td>
+        <td class="src src-aes50">AES50 B 01</td>
+        <td class="r">+10.0 dB</td>
+        <td class="c"></td>
+        <td class="r"></td>
+        <td class="r"></td>
+        <td class="c">L</td>
+      </tr>
+      <tr class=" link-bottom">
+        <td class="num">04</td>
+        <td><span class="name-chip" style="background: #e74c3c; color: #fff">Keys R</span></td>
+        <td class="src src-aes50">AES50 B 02</td>
+        <td class="r">+10.0 dB</td>
+        <td class="c"></td>
+        <td class="r"></td>
+        <td class="r"></td>
+        <td class="c">R</td>
+      </tr>
+      <tr class="">
+        <td class="num">05</td>
+        <td><span class="name-chip" style="background: #ffffff; color: #000">Kick</span></td>
+        <td class="src src-aes50">AES50 B 09</td>
+        <td class="r"></td>
+        <td class="c"></td>
+        <td class="r"></td>
+        <td class="r"></td>
+        <td class="c"></td>
+      </tr>
+      <tr class="">
+        <td class="num">06</td>
+        <td><span class="name-chip" style="background: #ffffff; color: #000">Snare</span></td>
+        <td class="src src-aes50">AES50 B 10</td>
+        <td class="r"></td>
+        <td class="c"></td>
+        <td class="r"></td>
+        <td class="r"></td>
+        <td class="c"></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="page stagebox">
+  <header class="page-head">
+    <h1>Stage box — AES50 A</h1>
+    <div class="meta">x32print-demo · 16 inputs · generated 2026-11-04 13:35</div>
+  </header>
+  <table class="box">
+    <thead>
+      <tr><th class="sock">Input</th><th>Channel</th><th class="c">48V</th><th class="r">Gain</th></tr>
+    </thead>
+    <tbody>
+      <tr class="">
+        <td class="sock">1</td>
+        <td>
+            <div class="box-ch">
+              <span class="box-chnum">Ch 01</span>
+              <span class="name-chip" style="background: #f1c40f; color: #000">Lead Vocal</span>
+            </div>
+        </td>
+        <td class="c"><span class="phantom big">48V</span></td>
+        <td class="r">+30.0 dB</td>
+      </tr>
+      <tr class="">
+        <td class="sock">2</td>
+        <td>
+            <div class="box-ch">
+              <span class="box-chnum">Ch 02</span>
+              <span class="name-chip" style="background: #2ecc71; color: #fff">Guitar</span>
+            </div>
+        </td>
+        <td class="c"></td>
+        <td class="r">+20.0 dB</td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">3</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">4</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">5</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">6</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">7</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">8</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">9</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">10</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">11</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">12</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">13</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">14</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">15</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">16</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+<section class="page stagebox">
+  <header class="page-head">
+    <h1>Stage box — AES50 B</h1>
+    <div class="meta">x32print-demo · 16 inputs · generated 2026-11-04 13:35</div>
+  </header>
+  <table class="box">
+    <thead>
+      <tr><th class="sock">Input</th><th>Channel</th><th class="c">48V</th><th class="r">Gain</th></tr>
+    </thead>
+    <tbody>
+      <tr class="">
+        <td class="sock">1</td>
+        <td>
+            <div class="box-ch">
+              <span class="box-chnum">Ch 03</span>
+              <span class="name-chip" style="background: #e74c3c; color: #fff">Keys L</span>
+            </div>
+        </td>
+        <td class="c"></td>
+        <td class="r">+10.0 dB</td>
+      </tr>
+      <tr class="">
+        <td class="sock">2</td>
+        <td>
+            <div class="box-ch">
+              <span class="box-chnum">Ch 04</span>
+              <span class="name-chip" style="background: #e74c3c; color: #fff">Keys R</span>
+            </div>
+        </td>
+        <td class="c"></td>
+        <td class="r">+10.0 dB</td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">3</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">4</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">5</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">6</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">7</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">8</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="">
+        <td class="sock">9</td>
+        <td>
+            <div class="box-ch">
+              <span class="box-chnum">Ch 05</span>
+              <span class="name-chip" style="background: #ffffff; color: #000">Kick</span>
+            </div>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="">
+        <td class="sock">10</td>
+        <td>
+            <div class="box-ch">
+              <span class="box-chnum">Ch 06</span>
+              <span class="name-chip" style="background: #ffffff; color: #000">Snare</span>
+            </div>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">11</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">12</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">13</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">14</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">15</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+      <tr class="empty">
+        <td class="sock">16</td>
+        <td>
+            <span class="blank-line"></span>
+        </td>
+        <td class="c"></td>
+        <td class="r"></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="page">
+  <header class="page-head">
+    <h1>Aux inputs &amp; mix buses</h1>
+    <div class="meta">x32print-demo</div>
+  </header>
+  <div class="cols">
+    <div>
+      <h2>Aux inputs</h2>
+      <table class="list">
+        <thead><tr><th class="num">Aux</th><th>Name</th><th>Source</th><th class="c">Link</th></tr></thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h2>Mix buses</h2>
+      <table class="list">
+        <thead><tr><th class="num">Bus</th><th>Name</th></tr></thead>
+        <tbody>
+          <tr class="">
+            <td class="num">01</td>
+            <td><span class="name-chip" style="background: #f1c40f; color: #000">Monitor 1</span></td>
+          </tr>
+          <tr class="">
+            <td class="num">02</td>
+            <td><span class="name-chip" style="background: #2ecc71; color: #fff">Monitor 2</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2>Notes &amp; warnings</h2>
+  <ul class="warnings">
+<li>Demo data only; no X32 scene file was parsed.</li>  </ul>
+  <p class="footnote">Input routing: A1-8 · A9-16 · B1-8 · B9-16 · AN1-4</p>
+</section>
+</body>
+</html>

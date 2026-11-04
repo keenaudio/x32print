@@ -3,6 +3,7 @@
 from collections import Counter
 
 from x32print.models import Scene
+from x32print.routing import channel_is_used
 
 
 def validate_scene(scene: Scene) -> list[str]:
@@ -13,20 +14,21 @@ def validate_scene(scene: Scene) -> list[str]:
         warnings.append(f"Duplicate channel label: {label}")
 
     for channel in scene.channels:
-        if not channel.label.strip():
-            warnings.append(f"Mixer channel {channel.number} has a blank label.")
+        # Only flag strips someone has clearly set up (colored) but not named.
+        if channel_is_used(channel) and not channel.label.strip():
+            warnings.append(f"Mixer channel {channel.number} has a colour but a blank label.")
 
-    for bus in scene.buses:
-        if not bus.name.strip():
-            warnings.append(f"Bus {bus.number} has a blank name.")
-
-    if scene.routing.decoded_inputs:
-        source_keys = [
-            (source.source_type, source.device, source.port)
-            for source in scene.routing.decoded_inputs.values()
-        ]
-        duplicates = [key for key, count in Counter(source_keys).items() if count > 1]
-        for source in duplicates:
-            warnings.append(f"Duplicate input routing: {source}")
+    # Two named strips fed by the same physical socket is usually a patch error.
+    by_socket: dict[str, list[str]] = {}
+    for channel in [*scene.channels, *scene.aux_inputs]:
+        src = channel.source
+        if channel_is_used(channel) and src and src.port is not None and src.source_type in ("local", "aes50", "card"):
+            kind = "Aux" if channel.kind == "auxin" else "Ch"
+            by_socket.setdefault(src.display(), []).append(
+                f"{kind} {channel.number} ({channel.label or 'unnamed'})"
+            )
+    for socket, names in by_socket.items():
+        if len(names) > 1:
+            warnings.append(f"{socket} feeds more than one channel: {', '.join(names)}")
 
     return warnings

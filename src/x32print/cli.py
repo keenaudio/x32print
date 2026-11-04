@@ -5,30 +5,33 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from x32print.models import Bus, Channel, Scene
-from x32print.parser import parse_scene
+from x32print.parser import parse_scene, parse_scene_text
 from x32print.reports.html import HtmlReport
+from x32print.routing import decode_input_routing
+
+_DEMO_SCN = """\
+#4.0# "x32print-demo" "" %000000000 1
+/config/chlink OFF ON OFF OFF OFF OFF OFF OFF OFF OFF OFF OFF OFF OFF OFF OFF
+/config/routing/IN A1-8 A9-16 B1-8 B9-16 AN1-4
+/ch/01/config "Lead Vocal" 50 YE 1
+/ch/02/config "Guitar" 17 GN 2
+/ch/03/config "Keys L" 33 RD 17
+/ch/04/config "Keys R" 33 RD 18
+/ch/05/config "Kick" 2 WH 25
+/ch/06/config "Snare" 4 WH 26
+/bus/01/config "Monitor 1" 63 YE
+/bus/02/config "Monitor 2" 63 GN
+/headamp/032 +30.0 ON
+/headamp/033 +20.0 OFF
+/headamp/080 +10.0 OFF
+/headamp/081 +10.0 OFF
+"""
 
 
-def _demo_scene() -> Scene:
-    return Scene(
-        name="x32print-demo",
-        channels=[
-            Channel(1, "Lead Vocal", scribble_color="#f1c40f"),
-            Channel(2, "Guitar", scribble_color="#2ecc71"),
-            Channel(3, "Keys L", scribble_color="#e74c3c"),
-            Channel(4, "Keys R", scribble_color="#e74c3c"),
-            Channel(5, "Kick", scribble_color="#ecf0f1"),
-            Channel(6, "Snare", scribble_color="#ecf0f1"),
-        ],
-        buses=[
-            Bus(1, "Monitor 1"),
-            Bus(2, "Monitor 2"),
-            Bus(3, "Drum Mix"),
-            Bus(8, "Horn Mix"),
-        ],
-        warnings=["Demo data only; no X32 scene file was parsed."],
-    )
+def _demo_scene():
+    scene = parse_scene_text(_DEMO_SCN, name="x32print-demo")
+    scene.warnings.append("Demo data only; no X32 scene file was parsed.")
+    return scene
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -62,6 +65,7 @@ def main() -> int:
         build_parser().print_help()
         return 2
 
+    decode_input_routing(scene)
     output.write_text(HtmlReport().render(scene), encoding="utf-8")
     print(f"Report written: {output.resolve()}")
     return 0

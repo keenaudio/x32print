@@ -1,1 +1,1 @@
-"""Report implementations."""
+"""Report renderers."""

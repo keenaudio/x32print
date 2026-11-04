@@ -1,12 +1,11 @@
-"""Base protocol for report plugins."""
+"""Report base class."""
 
-from typing import Protocol
+from abc import ABC, abstractmethod
 
 from x32print.models import Scene
 
 
-class Report(Protocol):
-    name: str
-
+class Report(ABC):
+    @abstractmethod
     def render(self, scene: Scene) -> str:
-        """Render a Scene to a string."""
+        """Render the scene to a string."""

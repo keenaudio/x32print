@@ -1,69 +1,137 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ scene.name }} — x32print</title>
-  <style>{{ css }}</style>
+<meta charset="utf-8">
+<title>{{ scene.name }} — X32 channel list</title>
+<style>
+{{ css | safe }}
+</style>
 </head>
 <body>
-  <div class="toolbar"><button onclick="window.print()">Print / Save PDF</button></div>
-  <header class="report-header">
-    <div>
-      <div class="eyebrow">X32 SYSTEM DOCUMENTATION</div>
-      <h1>{{ scene.name }}</h1>
-      <p class="subtitle">Input patch, stage connections, and monitor buses</p>
-    </div>
-    <div class="brand">x32print <span>v{{ version }}</span></div>
+<div class="toolbar no-print">
+  <button onclick="window.print()">Print</button>
+  <span>Tip: set landscape orientation and enable “Background graphics” to print scribble colours.</span>
+</div>
+
+{% macro swatch(ch) -%}
+<span class="name-chip" style="background: {{ ch.scribble_color }}; color: {{ ch.scribble_color | text_color }}">
+  {{- ch.label or "—" -}}
+</span>
+{%- endmacro %}
+
+{# ---------------------------------------------------------------- inputs #}
+<section class="page">
+  <header class="page-head">
+    <h1>{{ scene.name }}</h1>
+    <div class="meta">Input channel list · generated {{ generated }}</div>
   </header>
+  <table class="list">
+    <thead>
+      <tr>
+        <th class="num">Ch</th><th>Name</th><th>Source</th>
+        <th class="r">Gain</th><th class="c">48V</th><th class="r">Trim</th><th class="r">HPF</th><th class="c">Link</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for ch in scene.channels %}
+      <tr class="{{ '' if ch is used else 'unused' }}{{ ' link-top' if ch.linked and ch.number is odd }}{{ ' link-bottom' if ch.linked and ch.number is even }}">
+        <td class="num">{{ ch.display_id }}</td>
+        <td>{{ swatch(ch) }}</td>
+        <td class="src src-{{ ch.source.source_type if ch.source else 'none' }}">{{ ch.source.display() if ch.source else "?" }}</td>
+        <td class="r">{{ ch.gain | gain }}</td>
+        <td class="c">{% if ch.phantom %}<span class="phantom">48V</span>{% endif %}</td>
+        <td class="r">{{ ch.trim | gain if ch.trim else "" }}</td>
+        <td class="r">{{ ch.hpf_freq | freq if ch.hpf_on else "" }}</td>
+        <td class="c">{{ "L" if ch.linked and ch.number is odd else ("R" if ch.linked else "") }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
 
-  <section>
-    <h2>Input Channels</h2>
-    <table class="input-table">
-      <thead><tr><th>Mixer</th><th>Source</th><th>Label</th><th class="color-head">Color</th><th class="notes-head">Notes</th></tr></thead>
-      <tbody>
-      {% for channel in scene.channels %}
-        <tr>
-          <td class="number">{{ channel.number }}</td>
-          <td class="source">{{ channel.source.display() if channel.source else "—" }}</td>
-          <td class="label">{{ channel.label }}</td>
-          <td class="color-cell"><span class="swatch" style="background: {{ channel.scribble_color or '#bdc3c7' }}"></span></td>
-          <td class="notes">{{ channel.notes }}</td>
-        </tr>
-      {% else %}
-        <tr><td colspan="5" class="empty">No channel configuration entries were recognized.</td></tr>
-      {% endfor %}
-      </tbody>
-    </table>
-  </section>
+{# ------------------------------------------------------------ stage boxes #}
+{% for box in scene.stageboxes %}
+<section class="page stagebox">
+  <header class="page-head">
+    <h1>{{ box.name }}</h1>
+    <div class="meta">{{ scene.name }} · {{ box.sockets | length }} inputs · generated {{ generated }}</div>
+  </header>
+  <table class="box">
+    <thead>
+      <tr><th class="sock">Input</th><th>Channel</th><th class="c">48V</th><th class="r">Gain</th></tr>
+    </thead>
+    <tbody>
+    {% for socket in box.sockets %}
+      {% set used = socket.channels | select("used") | list %}
+      <tr class="{{ '' if used else 'empty' }}">
+        <td class="sock">{{ socket.port }}</td>
+        <td>
+          {% for ch in used %}
+            <div class="box-ch">
+              <span class="box-chnum">{{ ch.display_id if ch.kind == "auxin" else "Ch " ~ ch.display_id }}</span>
+              {{ swatch(ch) }}
+            </div>
+          {% else %}
+            <span class="blank-line"></span>
+          {% endfor %}
+        </td>
+        <td class="c">{% if socket.phantom %}<span class="phantom big">48V</span>{% endif %}</td>
+        <td class="r">{{ socket.gain | gain if used else "" }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endfor %}
 
-  <section class="stage-section">
-    <h2>Stage Patch Summary</h2>
-    <p class="section-note">Stage-box assignments will appear here once scene input routing is decoded.</p>
-    <div class="notice">Routing is not yet interpreted. This report does not assume that mixer channels 1–16 or 17–32 correspond to particular stage boxes.</div>
-  </section>
-
-  <section class="bus-section">
-    <h2>Monitor Busses</h2>
-    <table>
-      <thead><tr><th>Bus</th><th>Name</th><th class="notes-head">Notes</th></tr></thead>
-      <tbody>
-      {% for bus in scene.buses if bus.number <= 16 %}
-        <tr><td class="number">{{ bus.number }}</td><td>{{ bus.name }}</td><td class="notes">{{ bus.notes }}</td></tr>
-      {% else %}
-        <tr><td colspan="3" class="empty">No bus configuration entries were recognized.</td></tr>
-      {% endfor %}
-      </tbody>
-    </table>
-  </section>
+{# ------------------------------------------------------- aux in + buses #}
+<section class="page">
+  <header class="page-head">
+    <h1>Aux inputs &amp; mix buses</h1>
+    <div class="meta">{{ scene.name }}</div>
+  </header>
+  <div class="cols">
+    <div>
+      <h2>Aux inputs</h2>
+      <table class="list">
+        <thead><tr><th class="num">Aux</th><th>Name</th><th>Source</th><th class="c">Link</th></tr></thead>
+        <tbody>
+        {% for ch in scene.aux_inputs %}
+          <tr class="{{ '' if ch is used else 'unused' }}">
+            <td class="num">{{ ch.number }}</td>
+            <td>{{ swatch(ch) }}</td>
+            <td class="src">{{ ch.source.display() if ch.source else "?" }}</td>
+            <td class="c">{{ "L" if ch.linked and ch.number is odd else ("R" if ch.linked else "") }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h2>Mix buses</h2>
+      <table class="list">
+        <thead><tr><th class="num">Bus</th><th>Name</th></tr></thead>
+        <tbody>
+        {% for bus in scene.buses %}
+          <tr class="{{ '' if bus.name else 'unused' }}">
+            <td class="num">{{ "%02d" | format(bus.number) }}</td>
+            <td><span class="name-chip" style="background: {{ bus.color }}; color: {{ bus.color | text_color }}">{{ bus.name or "—" }}</span></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 
   {% if warnings %}
-  <section class="validation">
-    <h2>Validation</h2>
-    <ul>{% for warning in warnings %}<li>{{ warning }}</li>{% endfor %}</ul>
-  </section>
+  <h2>Notes &amp; warnings</h2>
+  <ul class="warnings">
+    {% for w in warnings %}<li>{{ w }}</li>{% endfor %}
+  </ul>
   {% endif %}
-
-  <footer>Generated by x32print · v{{ version }} · {{ scene.name }}</footer>
+  {% if scene.routing.input_tokens %}
+  <p class="footnote">Input routing: {{ scene.routing.input_tokens | join(" · ") }}</p>
+  {% endif %}
+</section>
 </body>
 </html>
