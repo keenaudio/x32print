@@ -42,6 +42,26 @@ class Headamp:
 
 
 @dataclass(slots=True)
+class Send:
+    """One strip's send to a mix bus (/ch/NN/mix/MM).
+
+    tap is the X32 send point: "IN/LC", "<-EQ", "EQ->", "PRE", "POST" or
+    "GRP". The scene stores tap and pan only on odd buses; even buses inherit
+    the tap of their odd partner.
+    """
+
+    bus: int
+    on: bool = False
+    level: float | None = None  # dB; -inf for -oo
+    pan: float | None = None
+    tap: str | None = None
+
+    @property
+    def active(self) -> bool:
+        return self.on and self.level is not None and self.level != float("-inf")
+
+
+@dataclass(slots=True)
 class Channel:
     number: int
     label: str = ""
@@ -50,7 +70,7 @@ class Channel:
     color_code: str | None = None
     icon: int | None = None
     notes: str = ""
-    kind: str = "ch"  # "ch" or "auxin"
+    kind: str = "ch"  # "ch", "auxin" or "fxrtn"
     source_index: int | None = None  # raw /config source value
     linked: bool = False  # stereo-linked with its odd/even partner
     trim: float | None = None
@@ -58,10 +78,15 @@ class Channel:
     hpf_freq: float | None = None
     gain: float | None = None
     phantom: bool | None = None
+    sends: dict[int, Send] = field(default_factory=dict)  # bus number -> send
 
     @property
     def display_id(self) -> str:
-        return f"Aux {self.number}" if self.kind == "auxin" else f"{self.number:02d}"
+        if self.kind == "auxin":
+            return f"Aux {self.number}"
+        if self.kind == "fxrtn":
+            return f"FX {(self.number + 1) // 2}{'LR'[(self.number - 1) % 2]}"
+        return f"{self.number:02d}"
 
 
 @dataclass(slots=True)
@@ -71,6 +96,7 @@ class Bus:
     color: str | None = None
     icon: int | None = None
     notes: str = ""
+    linked: bool = False  # stereo-linked with its odd/even partner
 
 
 @dataclass(slots=True)
@@ -105,6 +131,7 @@ class Scene:
     name: str
     channels: list[Channel] = field(default_factory=list)
     aux_inputs: list[Channel] = field(default_factory=list)
+    fx_returns: list[Channel] = field(default_factory=list)
     buses: list[Bus] = field(default_factory=list)
     headamps: dict[int, Headamp] = field(default_factory=dict)
     routing: RoutingMap = field(default_factory=RoutingMap)

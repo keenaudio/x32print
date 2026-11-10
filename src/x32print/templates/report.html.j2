@@ -84,6 +84,52 @@
 </section>
 {% endfor %}
 
+{# ---------------------------------------------------------- monitor sends #}
+{% if mixes.rows %}
+<section class="page">
+  <header class="page-head">
+    <h1>Monitor &amp; mix sends</h1>
+    <div class="meta">{{ scene.name }} · send levels in dB · generated {{ generated }}</div>
+  </header>
+  <table class="sends">
+    <thead>
+      <tr>
+        <th class="num">Ch</th><th>Name</th>
+        {% for col in mixes.columns %}
+        <th class="bus-col">
+          <div class="bus-num">{{ col.label }}{% if col.stereo %} <span class="st">ST</span>{% endif %}</div>
+          <div class="bus-name" style="background: {{ col.color }}; color: {{ col.color | text_color }}">{{ col.name or "—" }}</div>
+          <div class="bus-tap">{{ tap_labels.get(col.tap, col.tap) if col.tap else "" }}</div>
+        </th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+    {% for row in mixes.rows %}
+      <tr>
+        <td class="num">{{ row.strip.display_id }}</td>
+        <td>{{ swatch(row.strip) }}</td>
+        {% for send in row.cells %}
+          {% set col = mixes.columns[loop.index0] %}
+          {% if send %}
+          <td class="lvl">
+            {{- send.level | db -}}
+            {% if col.stereo %}<span class="pan">{{ send.pan | pan }}</span>{% endif %}
+            {% if send.tap and send.tap != col.tap %}<span class="tap">{{ tap_labels.get(send.tap, send.tap) }}</span>{% endif %}
+          </td>
+          {% else %}
+          <td class="lvl off"></td>
+          {% endif %}
+        {% endfor %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <p class="footnote">Only sends that are switched on with a level above −∞ are shown. The tap under each bus is the most common send point;
+    cells tagged otherwise use a different tap. Stereo-linked bus pairs (ST) share one column, with pan shown.</p>
+</section>
+{% endif %}
+
 {# ------------------------------------------------------- aux in + buses #}
 <section class="page">
   <header class="page-head">

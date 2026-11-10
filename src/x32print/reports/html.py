@@ -7,6 +7,7 @@ from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from x32print.mixes import TAP_LABELS, build_mix_matrix, fmt_pan
 from x32print.models import Scene
 from x32print.reports.base import Report
 from x32print.routing import channel_is_used
@@ -19,6 +20,12 @@ def _fmt_gain(value: float | None) -> str:
     if value is None:
         return ""
     return f"{value:+.1f} dB"
+
+
+def _fmt_db(value: float | None) -> str:
+    if value is None:
+        return ""
+    return "0.0" if abs(value) < 0.05 else f"{value:+.1f}"
 
 
 def _fmt_freq(value: float | None) -> str:
@@ -44,6 +51,8 @@ class HtmlReport(Report):
             lstrip_blocks=True,
         )
         self.env.filters["gain"] = _fmt_gain
+        self.env.filters["db"] = _fmt_db
+        self.env.filters["pan"] = fmt_pan
         self.env.filters["freq"] = _fmt_freq
         self.env.filters["text_color"] = _text_color
         self.env.tests["used"] = channel_is_used
@@ -54,6 +63,8 @@ class HtmlReport(Report):
         return template.render(
             scene=scene,
             css=css,
+            mixes=build_mix_matrix(scene),
+            tap_labels=TAP_LABELS,
             warnings=[*scene.warnings, *validate_scene(scene)],
             generated=datetime.now().strftime("%Y-%m-%d %H:%M"),
         )

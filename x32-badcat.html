@@ -79,6 +79,24 @@ table.box .box-ch + .box-ch { margin-top: 3px; }
 .box-chnum { display: inline-block; width: 3.6em; font-size: 15px; color: #444; font-weight: 600; }
 .blank-line { display: inline-block; width: 4.5in; border-bottom: 1px dotted #bbb; margin-left: calc(3.6em * 15 / 20 + 12px); }
 
+/* Monitor send matrix */
+table.sends td.num { white-space: nowrap; }
+table.sends th.bus-col { min-width: 0.62in; text-align: center; vertical-align: bottom; padding: 2px 2px; text-transform: none; letter-spacing: 0; }
+table.sends .bus-num { font-size: 9px; color: #555; white-space: nowrap; }
+table.sends .bus-num .st { font-weight: 700; color: #111; }
+table.sends .bus-name { font-size: 10.5px; font-weight: 700; color: #111; border: 1px solid #999; border-radius: 3px;
+                        padding: 1px 3px; line-height: 1.15; word-break: break-word; }
+table.sends .bus-tap { font-size: 8.5px; color: #777; text-transform: uppercase; margin-top: 1px; }
+table.sends td { font-size: 12px; height: 18px; }
+table.sends .name-chip { min-width: 9em; }
+table.sends td.lvl { text-align: center; font-variant-numeric: tabular-nums; font-weight: 600; border-left: 1px solid #e4e4e4; white-space: nowrap; }
+table.sends td.lvl.off { background: #f6f6f6; }
+table.sends .pan { font-size: 9px; color: #555; font-weight: 400; margin-left: 3px; }
+table.sends .tap { display: block; font-size: 8px; color: #a04000; font-weight: 400; text-transform: uppercase; line-height: 1; }
+table.sends tbody tr:nth-child(even) td:not(.off) { background: #fafafa; }
+thead { display: table-header-group; }
+tr { break-inside: avoid; }
+
 .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4in; }
 .warnings { font-size: 12px; margin: 0; padding-left: 1.2em; }
 .footnote { font-size: 10px; color: #666; margin-top: 10px; }
@@ -102,7 +120,7 @@ table.box .box-ch + .box-ch { margin-top: 3px; }
 <section class="page">
   <header class="page-head">
     <h1>X32-badcat-11.04</h1>
-    <div class="meta">Input channel list · generated 2026-11-04 13:37</div>
+    <div class="meta">Input channel list · generated 2026-11-10 12:19</div>
   </header>
   <table class="list">
     <thead>
@@ -439,7 +457,7 @@ table.box .box-ch + .box-ch { margin-top: 3px; }
 <section class="page stagebox">
   <header class="page-head">
     <h1>Stage box — AES50 A</h1>
-    <div class="meta">X32-badcat-11.04 · 16 inputs · generated 2026-11-04 13:37</div>
+    <div class="meta">X32-badcat-11.04 · 16 inputs · generated 2026-11-10 12:19</div>
   </header>
   <table class="box">
     <thead>
@@ -616,7 +634,7 @@ table.box .box-ch + .box-ch { margin-top: 3px; }
 <section class="page stagebox">
   <header class="page-head">
     <h1>Stage box — AES50 B</h1>
-    <div class="meta">X32-badcat-11.04 · 16 inputs · generated 2026-11-04 13:37</div>
+    <div class="meta">X32-badcat-11.04 · 16 inputs · generated 2026-11-10 12:19</div>
   </header>
   <table class="box">
     <thead>
@@ -798,6 +816,544 @@ table.box .box-ch + .box-ch { margin-top: 3px; }
       </tr>
     </tbody>
   </table>
+</section>
+
+<section class="page">
+  <header class="page-head">
+    <h1>Monitor &amp; mix sends</h1>
+    <div class="meta">X32-badcat-11.04 · send levels in dB · generated 2026-11-10 12:19</div>
+  </header>
+  <table class="sends">
+    <thead>
+      <tr>
+        <th class="num">Ch</th><th>Name</th>
+        <th class="bus-col">
+          <div class="bus-num">Bus 01</div>
+          <div class="bus-name" style="background: #f1c40f; color: #000">Vince Mix</div>
+          <div class="bus-tap">Pre-fader</div>
+        </th>
+        <th class="bus-col">
+          <div class="bus-num">Bus 02</div>
+          <div class="bus-name" style="background: #2ecc71; color: #fff">Paul Mix</div>
+          <div class="bus-tap">Pre-fader</div>
+        </th>
+        <th class="bus-col">
+          <div class="bus-num">Bus 03</div>
+          <div class="bus-name" style="background: #3498db; color: #fff">Dave Mix</div>
+          <div class="bus-tap">Pre-fader</div>
+        </th>
+        <th class="bus-col">
+          <div class="bus-num">Bus 04</div>
+          <div class="bus-name" style="background: #1abcd4; color: #fff">Phil Mix</div>
+          <div class="bus-tap">Pre-fader</div>
+        </th>
+        <th class="bus-col">
+          <div class="bus-num">Bus 05</div>
+          <div class="bus-name" style="background: #d147c8; color: #fff">Logan Mix</div>
+          <div class="bus-tap">Pre-fader</div>
+        </th>
+        <th class="bus-col">
+          <div class="bus-num">Bus 08</div>
+          <div class="bus-name" style="background: #ffffff; color: #000">Horn Mix</div>
+          <div class="bus-tap">Pre-fader</div>
+        </th>
+        <th class="bus-col">
+          <div class="bus-num">Bus 09–10 <span class="st">ST</span></div>
+          <div class="bus-name" style="background: #e74c3c; color: #fff">Keys L / Keys R</div>
+          <div class="bus-tap">Pre-fader</div>
+        </th>
+        <th class="bus-col">
+          <div class="bus-num">Bus 13</div>
+          <div class="bus-name" style="background: #d147c8; color: #fff">Fx 1</div>
+          <div class="bus-tap">Post-fader</div>
+        </th>
+        <th class="bus-col">
+          <div class="bus-num">Bus 14</div>
+          <div class="bus-name" style="background: #d147c8; color: #fff">Fx 2</div>
+          <div class="bus-tap">Post-fader</div>
+        </th>
+        <th class="bus-col">
+          <div class="bus-num">Bus 15</div>
+          <div class="bus-name" style="background: #d147c8; color: #fff">Fx 3</div>
+          <div class="bus-tap">Post-fader</div>
+        </th>
+        <th class="bus-col">
+          <div class="bus-num">Bus 16</div>
+          <div class="bus-name" style="background: #d147c8; color: #fff">Fx 4</div>
+          <div class="bus-tap"></div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="num">01</td>
+        <td><span class="name-chip" style="background: #f1c40f; color: #000">Mic Vince</span></td>
+          <td class="lvl">+4.0          </td>
+          <td class="lvl">-1.5          </td>
+          <td class="lvl">0.0          </td>
+          <td class="lvl">-13.0          </td>
+          <td class="lvl">-7.3<span class="tap">Post-fader</span>          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-10.5          </td>
+          <td class="lvl">-14.0          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">02</td>
+        <td><span class="name-chip" style="background: #2ecc71; color: #fff">Mic Paul</span></td>
+          <td class="lvl">-5.0          </td>
+          <td class="lvl">-7.0          </td>
+          <td class="lvl">-0.5          </td>
+          <td class="lvl">-23.0          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-8.8          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">03</td>
+        <td><span class="name-chip" style="background: #3498db; color: #fff">Mic Dave</span></td>
+          <td class="lvl">-6.3          </td>
+          <td class="lvl">-5.5          </td>
+          <td class="lvl">0.0          </td>
+          <td class="lvl">-16.5          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-8.0          </td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">04</td>
+        <td><span class="name-chip" style="background: #d147c8; color: #fff">Mic Logan</span></td>
+          <td class="lvl">-3.5          </td>
+          <td class="lvl">-6.0          </td>
+          <td class="lvl">0.0          </td>
+          <td class="lvl">-16.0          </td>
+          <td class="lvl">-8.0          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-10.5          </td>
+          <td class="lvl">-23.5          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">05</td>
+        <td><span class="name-chip" style="background: #e74c3c; color: #fff">Mic Aaron</span></td>
+          <td class="lvl">-3.5          </td>
+          <td class="lvl">-8.8          </td>
+          <td class="lvl">-1.5          </td>
+          <td class="lvl">-26.0          </td>
+          <td class="lvl">-13.0          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-11.5          </td>
+          <td class="lvl">-19.0          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">06</td>
+        <td><span class="name-chip" style="background: #ffffff; color: #000">Mic Phil</span></td>
+          <td class="lvl">-21.5          </td>
+          <td class="lvl">-6.5          </td>
+          <td class="lvl">+4.3          </td>
+          <td class="lvl">-5.3          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-27.0          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">07</td>
+        <td><span class="name-chip" style="background: #2ecc71; color: #fff">Mic Mitch</span></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-7.3          </td>
+          <td class="lvl off"></td>
+          <td class="lvl">-19.0          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">09</td>
+        <td><span class="name-chip" style="background: #3498db; color: #fff">Sax 1</span></td>
+          <td class="lvl">-4.0<span class="tap">Post-EQ</span>          </td>
+          <td class="lvl">-8.8<span class="tap">Post-EQ</span>          </td>
+          <td class="lvl">-13.0          </td>
+          <td class="lvl">-20.5          </td>
+          <td class="lvl off"></td>
+          <td class="lvl">-10.0          </td>
+          <td class="lvl off"></td>
+          <td class="lvl">-21.5          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">10</td>
+        <td><span class="name-chip" style="background: #2ecc71; color: #fff">Trumpet</span></td>
+          <td class="lvl">-6.8          </td>
+          <td class="lvl">-8.0          </td>
+          <td class="lvl">-19.5          </td>
+          <td class="lvl">-20.0          </td>
+          <td class="lvl off"></td>
+          <td class="lvl">-10.0          </td>
+          <td class="lvl off"></td>
+          <td class="lvl">-23.0          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">11</td>
+        <td><span class="name-chip" style="background: #3498db; color: #fff">Sax 2</span></td>
+          <td class="lvl">-6.8          </td>
+          <td class="lvl">-7.8          </td>
+          <td class="lvl">-20.0<span class="tap">Post-fader</span>          </td>
+          <td class="lvl">-20.0<span class="tap">Post-fader</span>          </td>
+          <td class="lvl off"></td>
+          <td class="lvl">-10.0          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">12</td>
+        <td><span class="name-chip" style="background: #3498db; color: #fff">Trombone</span></td>
+          <td class="lvl">-5.8          </td>
+          <td class="lvl">-16.0          </td>
+          <td class="lvl">-19.5          </td>
+          <td class="lvl">-24.0          </td>
+          <td class="lvl off"></td>
+          <td class="lvl">-10.0          </td>
+          <td class="lvl off"></td>
+          <td class="lvl">-25.0          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">13</td>
+        <td><span class="name-chip" style="background: #3498db; color: #fff">Sax 3</span></td>
+          <td class="lvl">-6.0          </td>
+          <td class="lvl">-14.5          </td>
+          <td class="lvl">-19.0<span class="tap">Post-fader</span>          </td>
+          <td class="lvl">-25.0<span class="tap">Post-fader</span>          </td>
+          <td class="lvl off"></td>
+          <td class="lvl">-9.8          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">14</td>
+        <td><span class="name-chip" style="background: #bdc3c7; color: #000">—</span></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-5.3          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">15</td>
+        <td><span class="name-chip" style="background: #bdc3c7; color: #000">—</span></td>
+          <td class="lvl">-9.8          </td>
+          <td class="lvl">-23.0          </td>
+          <td class="lvl">-23.5          </td>
+          <td class="lvl">-23.5          </td>
+          <td class="lvl">-23.5          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">16</td>
+        <td><span class="name-chip" style="background: #bdc3c7; color: #000">—</span></td>
+          <td class="lvl">-9.8          </td>
+          <td class="lvl">-23.0          </td>
+          <td class="lvl">-23.5          </td>
+          <td class="lvl">-23.5          </td>
+          <td class="lvl">-23.5          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">17</td>
+        <td><span class="name-chip" style="background: #d147c8; color: #fff">Bass Logan</span></td>
+          <td class="lvl">-17.5<span class="tap">Post-fader</span>          </td>
+          <td class="lvl">-27.0<span class="tap">Post-fader</span>          </td>
+          <td class="lvl">-3.3<span class="tap">Post-EQ</span>          </td>
+          <td class="lvl">-4.3<span class="tap">Post-EQ</span>          </td>
+          <td class="lvl">-5.3          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">18</td>
+        <td><span class="name-chip" style="background: #f1c40f; color: #000">Guitar Vince</span></td>
+          <td class="lvl">-5.8<span class="tap">Post-fader</span>          </td>
+          <td class="lvl">-9.3<span class="tap">Post-fader</span>          </td>
+          <td class="lvl">-25.0<span class="tap">Post-EQ</span>          </td>
+          <td class="lvl">-16.5<span class="tap">Post-EQ</span>          </td>
+          <td class="lvl">-11.0<span class="tap">Post-fader</span>          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">19</td>
+        <td><span class="name-chip" style="background: #3498db; color: #fff">Guitar Dave</span></td>
+          <td class="lvl">-27.0<span class="tap">Post-EQ</span>          </td>
+          <td class="lvl off"></td>
+          <td class="lvl">0.0<span class="tap">Post-EQ</span>          </td>
+          <td class="lvl">-29.5<span class="tap">Post-EQ</span>          </td>
+          <td class="lvl">-40.0<span class="tap">Post-fader</span>          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">21</td>
+        <td><span class="name-chip" style="background: #e74c3c; color: #fff">Piano L</span></td>
+          <td class="lvl">-5.8          </td>
+          <td class="lvl">-16.5          </td>
+          <td class="lvl">-5.8          </td>
+          <td class="lvl">-18.5          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-14.5<span class="pan">L100</span>          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">22</td>
+        <td><span class="name-chip" style="background: #e74c3c; color: #fff">Piano R</span></td>
+          <td class="lvl">-5.8          </td>
+          <td class="lvl">-16.5          </td>
+          <td class="lvl">-5.8          </td>
+          <td class="lvl">-18.5          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-14.5<span class="pan">R100</span>          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">23</td>
+        <td><span class="name-chip" style="background: #e74c3c; color: #fff">Organ L</span></td>
+          <td class="lvl">-5.3          </td>
+          <td class="lvl">-15.5          </td>
+          <td class="lvl">-5.3          </td>
+          <td class="lvl">-18.5          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-15.0<span class="pan">L100</span>          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">24</td>
+        <td><span class="name-chip" style="background: #e74c3c; color: #fff">Organ R</span></td>
+          <td class="lvl">-5.3          </td>
+          <td class="lvl">-15.5          </td>
+          <td class="lvl">-5.3          </td>
+          <td class="lvl">-18.5          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-15.0<span class="pan">R100</span>          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">25</td>
+        <td><span class="name-chip" style="background: #ffffff; color: #000">KickDrum</span></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">+0.8<span class="tap">Post-EQ</span>          </td>
+          <td class="lvl">-21.5<span class="tap">Post-fader</span>          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">26</td>
+        <td><span class="name-chip" style="background: #ffffff; color: #000">FloorTom</span></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-27.5<span class="tap">Post-EQ</span>          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">27</td>
+        <td><span class="name-chip" style="background: #ffffff; color: #000">HighTom</span></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-27.5<span class="tap">Post-EQ</span>          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-84.0          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">28</td>
+        <td><span class="name-chip" style="background: #ffffff; color: #000">MidTom</span></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-29.0<span class="tap">Post-EQ</span>          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">29</td>
+        <td><span class="name-chip" style="background: #ffffff; color: #000">Overhd L</span></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-23.0<span class="tap">Post-EQ</span>          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">30</td>
+        <td><span class="name-chip" style="background: #ffffff; color: #000">Overhd R</span></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-23.0<span class="tap">Post-EQ</span>          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">31</td>
+        <td><span class="name-chip" style="background: #ffffff; color: #000">Snare</span></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-7.8<span class="tap">Post-EQ</span>          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">FX 2L</td>
+        <td><span class="name-chip" style="background: #d147c8; color: #fff">—</span></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-25.5          </td>
+          <td class="lvl">-16.5          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+      <tr>
+        <td class="num">FX 2R</td>
+        <td><span class="name-chip" style="background: #d147c8; color: #fff">—</span></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+          <td class="lvl">-25.5          </td>
+          <td class="lvl">-16.5          </td>
+          <td class="lvl off"></td>
+          <td class="lvl off"></td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="footnote">Only sends that are switched on with a level above −∞ are shown. The tap under each bus is the most common send point;
+    cells tagged otherwise use a different tap. Stereo-linked bus pairs (ST) share one column, with pan shown.</p>
 </section>
 
 <section class="page">
